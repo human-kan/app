@@ -17,6 +17,7 @@ import { useVapiData } from './hooks/useVapiData';
 import { Sun, Moon, Settings, LogOut, Table, Loader2 } from 'lucide-react';
 import { AppUser, USERS } from './users';
 import { db } from './db';
+import ChatWidget from './components/ChatWidget';
 
 function App() {
   const [allUsers, setAllUsers] = useState<AppUser[]>([]);
@@ -176,31 +177,22 @@ function App() {
     setViewMode('landing');
   };
 
-  // Show loader while fetching DB
-  if (isDbLoading || dbError) {
+  // Show error only if DB fails critical connection
+  if (dbError) {
     return (
       <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1.5rem', color: 'var(--accent-teal)', textAlign: 'center', padding: '2rem' }}>
-        {dbError ? (
-          <>
-            <Activity size={48} color="var(--accent-amber)" />
-            <div>
-              <h2 style={{ color: 'var(--accent-amber)', marginBottom: '0.5rem' }}>Cloud Sync Failed</h2>
-              <p style={{ color: 'var(--text-muted)', maxWidth: '400px' }}>{dbError}</p>
-              <button 
-                onClick={() => window.location.reload()} 
-                className="btn-primary" 
-                style={{ marginTop: '1.5rem', background: 'var(--accent-amber)', color: 'white' }}
-              >
-                Retry Connection
-              </button>
-            </div>
-          </>
-        ) : (
-          <>
-            <Loader2 className="animate-spin" size={32} />
-            <span style={{ fontWeight: 600, letterSpacing: '0.05em' }}>CONNECTING TO SECURE CLOUD...</span>
-          </>
-        )}
+        <Activity size={48} color="var(--accent-amber)" />
+        <div>
+          <h2 style={{ color: 'var(--accent-amber)', marginBottom: '0.5rem' }}>Cloud Sync Failed</h2>
+          <p style={{ color: 'var(--text-muted)', maxWidth: '400px' }}>{dbError}</p>
+          <button 
+            onClick={() => window.location.reload()} 
+            className="btn-primary" 
+            style={{ marginTop: '1.5rem', background: 'var(--accent-amber)', color: 'white' }}
+          >
+            Retry Connection
+          </button>
+        </div>
       </div>
     );
   }
@@ -237,6 +229,7 @@ function App() {
           {viewMode === 'login' && (
             <LoginPage onLogin={handleLogin} onBack={() => setViewMode('landing')} users={allUsers} />
           )}
+          <ChatWidget />
         </div>
       </>
     );
@@ -263,6 +256,7 @@ function App() {
         <footer className="dashboard-footer">
           <p>© 2026 SMTHIN' AI. All rights reserved.</p>
         </footer>
+        <ChatWidget />
       </div>
     );
   }
@@ -424,6 +418,7 @@ function App() {
         setAvgClientValue={setAvgClientValue}
         isAssistantLocked={true}
       />
+      <ChatWidget />
     </div>
   );
 }
