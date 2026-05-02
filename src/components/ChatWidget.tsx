@@ -53,7 +53,7 @@ const ChatWidget: React.FC = () => {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${OPENROUTER_KEY}`,
-          'HTTP-Referer': 'https://smthin.ai',
+          'HTTP-Referer': 'https://smthin.app',
           'X-Title': 'Smthin AI Assistant',
           'Content-Type': 'application/json'
         },
