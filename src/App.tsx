@@ -14,15 +14,14 @@ import FAQPage from './components/FAQPage';
 import BackgroundVideo from './components/BackgroundVideo';
 import Logo from './components/Logo';
 import { useVapiData } from './hooks/useVapiData';
-import { Sun, Moon, Settings, LogOut, Table, Loader2 } from 'lucide-react';
-import { AppUser, USERS } from './users';
+import { Sun, Moon, Settings, LogOut, Table, Activity } from 'lucide-react';
+import { AppUser } from './users';
 import { db } from './db';
 import ChatWidget from './components/ChatWidget';
 
 function App() {
   const [allUsers, setAllUsers] = useState<AppUser[]>([]);
   const [globalAnnouncement, setGlobalAnnouncement] = useState<string>('');
-  const [isDbLoading, setIsDbLoading] = useState(true);
   const [dbError, setDbError] = useState<string | null>(null);
 
   const [currentUser, setCurrentUser] = useState<AppUser | null>(null);
@@ -31,7 +30,7 @@ function App() {
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [latency, setLatency] = useState('0.6s');
   const [currentView, setCurrentView] = useState<'dashboard' | 'logs'>('dashboard');
-  const [viewMode, setViewMode] = useState<'landing' | 'login'>('landing');
+  const [viewMode, setViewMode] = useState<'landing' | 'login' | 'why-choose-us' | 'faq'>('landing');
 
   // --- 🔄 DATABASE INITIALIZATION & SYNC ---
   useEffect(() => {
@@ -49,7 +48,7 @@ function App() {
         console.error("Supabase init failed:", err);
         setDbError(err.message || "Unknown cloud connection error");
       } finally {
-        setIsDbLoading(false);
+        // DB loading handled
       }
     };
     initDb();
